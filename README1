@@ -1,0 +1,23 @@
+Book Store Order Analysis (SQL Project)
+Project Overview
+This project performs an end-to-end data analysis for an online book store using SQL. 
+By querying inventory, sales, customer demographics, and order data, the project extracts key business metrics and performance insights to optimize inventory management and 
+track revenue trends. 
+
+Database Schema
+The database book_store consists of three core tables: 
+books: Contains book details (book_id, title, author, genre, price, stock, published_year). 
+customers: Holds customer demographical info (customer_id, name, city, country). 
+orders: Tracks transaction records (order_id, customer_id, book_id, quantity, total_amount, order_date). 
+Key Performance Indicators (KPIs)
+Total Inventory Stock: 25,056 units 
+Total Books Cataloged: 500 titles 
+Total Revenue Generated: ₹7,56,629 
+Total Books Sold: 2,697 units 
+Total Unique Genres: 7 categories
+Customer Geographic Reach: Customers across 489 distinct cities
+
+Key Business Takeaways
+1. Low Stock Management:Identified 251 book titles with stock under 50 units, signaling a need for inventory replenishment.
+2. Customer Demographics:Highly distributed customer base across 489 cities, enabling localized marketing efforts.
+3. Revenue Distribution:Successfully calculated lifetime customer value to target high-value clients and tracked remaining stock post-fulfillment.
