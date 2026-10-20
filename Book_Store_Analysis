@@ -1,0 +1,146 @@
+create database book_store;
+use book_store;
+select * from books;
+select * from orders;
+select * from customers;
+ 
+                          #BOOK STORE ORDER ANALYSIS
+ 
+#KPIs
+
+select sum(stock) as Total_Stock from books; # Stock 25,056
+
+select count(*) as Total_Book from books; # Book 500
+
+select * from books order by price desc limit 5; # Top 5 Most Expensive Book
+
+select count(distinct genre) as Genre from books; #7 Category
+
+select distinct genre as Genre from books;
+
+select round(sum(total_amount)) as Revenue from orders; # Total Revenue 7,5,629
+
+select  count(distinct city) as City from customers; # 489
+
+select distinct country from customers;
+
+select sum(quantity) as 'Sold Quantity' from orders; # 2,697 Book Sold
+
+
+
+# No.of Book who published from 1950
+select count(*) as Publishyear from books where published_year>1950; # 292
+select count(*) as Publishyear from books where published_year>2000; # 88
+
+
+# No.of Order where order quantity more than 5
+select * from orders where quantity>5;
+
+
+# Books who has less quantity
+select * from books where stock<50;
+select count(*) as 'Lowest Stock' from books where stock<50; # 251
+
+
+# Stock in Each Category
+select genre, count(*) as Total_Stock
+from books
+group by genre;
+
+
+# Monthly Sales
+select monthname(order_date) as Month,sum(Total_amount) as Sales 
+from orders 
+group by order_date,total_amount;
+
+select year(order_date) as Year,sum(Total_amount) as Sales 
+from orders 
+group by order_date,total_amount
+order by year(order_date) desc;
+
+
+# Book sold in Each Genre
+select b.genre, sum(o.quantity) as 'No.of book Sold'
+from orders o
+join books b on b.book_id=o.book_id
+group by b.genre;
+
+
+# Customer & their order count
+select c.customer_id,c.name,count(o.order_id) as 'Order count'
+from orders o
+join customers c on o.customer_id=c.customer_id
+group by c.customer_id,c.name
+having count(order_id)>2;
+
+
+# Most Frequently ordered book
+select b.title,count(o.order_id) as 'Order count' 
+from books b
+join orders o on b.book_id=o.book_id
+group by b.title;
+
+
+# Book Sold by Each Author
+select b.author,sum(o.quantity) as 'Total Book Sold'
+from books b 
+join orders o on b.book_id=o.book_id
+group by b.author;
+
+
+# Top 5 Cities No.of Customer from
+select country,count(name) as 'No.of Customer' 
+from customers 
+group by country 
+order by count(name) desc
+limit 10; 
+
+
+#Customers who spent
+select c.customer_id,c.name, round(sum(o.total_amount),2) as 'Total Spent'
+from orders o
+join customers c on c.customer_id=o.customer_id
+group by c.customer_id,c.name
+order by 'Total Spent' desc;
+
+
+# Remaining Stock After Fulfilling all Stores
+select b.book_id,b.title,b.stock, coalesce(sum(o.quantity),0) as Sold,
+b.stock-coalesce(sum(o.quantity),0) as 'Remaining Stock'
+from books b
+left join orders o on b.book_id=o.book_id
+group by b.book_id,b.title,b.stock;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
